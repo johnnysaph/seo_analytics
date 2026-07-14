@@ -7,12 +7,15 @@ import os
 # path to json creds
 GOOGLE_KEY_PATH = os.getenv("GOOGLE_API_KEY_FILE_PATH")
 
+
 def get_credentials(google_api_key_path):
     if not google_api_key_path:
         raise ValueError("GOOGLE_API_KEY_FILE_PATH is not set")
     credentials = service_account.Credentials.from_service_account_file(
-        google_api_key_path)
+        google_api_key_path
+    )
     return credentials
+
 
 def get_service(api_name, api_version, scopes):
     """
@@ -24,12 +27,14 @@ def get_service(api_name, api_version, scopes):
     Returns:
         A service that is connected to the specified API.
     """
-    
+
     try:
         credentials = get_credentials(GOOGLE_KEY_PATH)
-        service = build(api_name, api_version, credentials=credentials, cache_discovery=False)
+        service = build(
+            api_name, api_version, credentials=credentials, cache_discovery=False
+        )
         return service
     except Exception as ex:
-        logging.error('Google Authentication Error occurred.')
+        logging.error("Google Authentication Error occurred.")
         logging.error(ex)
         sys.exit(1)
